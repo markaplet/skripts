@@ -1,0 +1,30 @@
+#--------------------------------------------------------------------------------------#
+# Name: Trashcan GUI
+# Addons needed: None
+# Author: hogbits
+# Description: Dispose of item in the trash instead of tossing them on the ground.
+# Default Permission nodes:
+# Usage: /trash
+# In Game: Sneak click on a composter to open trash.
+# In Game Item: Left click while holding composter to open trash.
+#--------------------------------------------------------------------------------------#
+
+options:
+    trashName: &4Trash Can
+    trashRows: 3
+
+command /trash:
+    permission: trash.use
+    permission message: &cYou must have the &ftrash.use &cpermission to use this command.
+    
+    trigger:
+        set {_trash} to a new chest inventory with {@trashRows} row named "{@trashName}"
+        open {_trash} to player
+
+on click:
+    if player is sneaking:
+        if clicked block is composter:
+            execute player command "/trash"
+
+on left click holding a composter:
+     execute player command "/trash"

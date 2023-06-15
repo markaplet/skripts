@@ -1,0 +1,119 @@
+#--------------------------------------------------------------------------------------#
+# Name: Player Menu
+# Addons needed: None
+# Description: This skript allows players to run commands through a GUI menu.
+# Default Permission nodes:
+# Usage: /menu
+#--------------------------------------------------------------------------------------#
+
+command /menu:
+    aliases: /m
+    trigger:
+        set {_menu} to a new chest inventory with 5 row named "&5Player Commands"
+        set slot 10 of {_menu} to nether star named "&r&EGo to Spawn"
+        set slot 11 of {_menu} to red bed named "&r&fHome: Bed" with lore "Go directly to your bed"
+        set slot 13 of {_menu} to experience bottle named "&eBottle 50 XP"
+        set slot 15 of {_menu} to lime dye named "&aTeleport Accept"
+        set slot 16 of {_menu} to red dye named "&cTeleport Deny"
+        
+        set slot 19 of {_menu} to iron sword with no nbt named "&rQuest Rewards"
+        set slot 20 of {_menu} to item frame named "&rQuest Sidebar" with lore "Show or hide the sidebar"
+        set slot 22 of {_menu} to compass named "&rRandom Teleport" with lore "Teleports you to a random location"
+        set slot 24 of {_menu} to allay spawn egg named "&rSmall Pets" with lore "Opens the GUI to summon your pet"
+        set slot 25 of {_menu} to writable book named "&rSkills"
+
+        set slot 28 of {_menu} to feather named "&rPurchase Fly" with lore "16 emeralds for 10 minutes"
+        # set slot 31 of {_menu} to barrier named "Close Menu"
+        set slot 31 of {_menu} to composter named "&rTrash"
+        set slot 34 of {_menu} to gold shovel with no nbt named "&rAbandon Land Claim" with lore "Must stand inside the claim"
+
+        open {_menu} to player
+        set {spawn} to location(-39, 66, 319, world "world", -90, 0)
+
+on inventory click: # Listen for players clicking in an inventory.
+    name of event-inventory is "&5Player Commands" # Make sure it's our menu.
+    cancel event
+    
+    # First Row
+    # ----------------------------------
+    
+    # Spawn
+    if index of event-slot is 10:
+        teleport player to {spawn}
+    
+    # Home bed
+    if index of event-slot is 11:
+        execute player command "/home bed"
+    
+    # BottledEXP
+    if index of event-slot is 13:
+        execute player command "/bottledexp save 50"
+    
+    # TP Accept
+    if index of event-slot is 15:
+        execute player command "/tpaccept"
+    
+    # TP Deny
+    if index of event-slot is 16:
+        execute player command "/tpdeny"
+
+    # Second Row
+    # ----------------------------------
+    
+    # Quest rewards
+    if index of event-slot is 19:
+        execute player command "/quests reward"
+    
+    # Quest Scoreboard
+    if index of event-slot is 20:
+        execute player command "/quests scoreboard"
+    
+    # BetterRTP
+    if index of event-slot is 22:
+        execute player command "/betterrtp"
+    
+    # Small Pets
+    if index of event-slot is 24: 
+        execute player command "/smallpets"
+    
+    #Skills
+    if index of event-slot is 25: # 
+        execute player command "/skills"
+
+    # Third Row
+    # ----------------------------------
+
+    # Buy Fly
+    if index of event-slot is 28:
+        if player's inventory contains 16 emeralds:
+            remove 16 emeralds from player's inventory
+            play sound "ENTITY.PLAYER.LEVELUP" to player
+            Send "&aFlight mode is enabled for 10 minutes." to player
+            set player's flight mode to true
+            close player's inventory
+
+            # Bossbar requires skRayFall add-on
+            create bossbar titled "Flight Timer" and id "flightTimer%uuid of player%" for player with progress 100 with colors white
+            set bossbar "flightTimer%uuid of player%" style to segmented 10
+            wait 1 second
+            loop 600 times:
+                if {_value} is between 0 and 5:
+                    play sound "entity.experience_orb.pickup" to player
+                set {_value} to value of bossbar "flightTimer%uuid of player%"
+                remove 0.1666 from {_value}
+                set bossbar "flightTimer%uuid of player%" value to {_value}
+                wait 1 second
+            remove bossbar "flightTimer%uuid of player%"
+            set player's flight mode to false
+        else:
+            send "&cYou must have 16 emeralds in your inventory to buy flight."
+            close player's inventory
+
+    # Trash
+    if index of event-slot is 31:
+        # close player's inventory
+        execute player command "/trash"
+
+    # Abandon claim
+    if index of event-slot is 34:
+        execute player command "/abandonclaim"

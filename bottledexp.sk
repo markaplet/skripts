@@ -1,0 +1,65 @@
+#--------------------------------------------------------------------------------------#
+# Name: Bottled Experience
+# Addons needed: None
+# Description: Bottles players experience
+# Default Permission nodes:
+# Usage: /bottledexp all|withdraw <number>
+# Note: 55 exp is roughly equivelent 5 levels (starting with none)
+#--------------------------------------------------------------------------------------#
+
+variables:
+	{minimum} = 50
+	{levelminimum} = 1
+
+# Main help function explaining commands.
+function sendHelp(p: player):
+	send "&e&l&m--------&e&l[&b&lBottled&a&lEXP&e&l]&e&l&m--------" to {_p}
+	send "• &f/bottledexp all" to {_p}
+	send "• &f/bottledexp withdraw <number>" to {_p}
+	send "• &bNOTE: &a55 exp &ris approximatly &a5 &rlevels" to {_p}
+	stop
+
+# Function to create BottledEXP
+function expBottle(p: player, i: integer):
+	send "&b&lBottled&a&lExp &7» &fYou have withdrew %{_i}% experience!" to {_p}
+	remove {_i} from total experience of {_p}
+	give 1 experience bottle named "&aExperience Bottle &7(&8&oWithdrawn by %{_p}%&7)" with lore "&2EXP: %{_i}%" and "" and "&cDo not throw off-handed bottled exp." to {_p}
+
+
+# Main command trigger
+command bottledexp [<text>] [<integer>]:
+	aliases: bxp
+	trigger:
+		if arg-1 is not set:
+			sendHelp(player)
+			stop
+		if arg-1 is not "all" or "withdraw" or "store" or "save":
+			sendHelp(player)
+			stop
+		if arg-1 is "all":
+			if arg-2 is not set:
+				set {_t} to total experience of player
+				expBottle(player, {_t})
+			else:
+				sendHelp(player)
+		if arg-1 is "withdraw" or "store" or "save":
+			if arg-2 is set:
+				if arg-2 is more than or equal to {minimum}:
+					if total experience of player is more than or equal to arg-2:
+						expBottle(player, arg-2)
+					else:
+						send "&4• &cYou do not have enough xp!"
+				else:
+					send "&4• &cYou do not have enough xp!"	
+			else:
+				sendHelp(player)
+
+# Right click event to consume the XP and remove the bottle/ 
+on right click:
+	if "%player's tool%" contains "&aExperience Bottle":
+		cancel event
+		set {_lore} to line 1 of lore of player's tool
+		replace "&2EXP: " with "" in {_lore}
+		set {_lore} to {_lore} parsed as integer
+		add {_lore} to total experience of player
+		remove 1 of player's tool from player's inventory

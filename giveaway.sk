@@ -1,0 +1,62 @@
+#--------------------------------------------------------------------------------------#
+# Name: Giveaway
+# Addons needed: None
+# Author: hogbits
+# Description: Give emeralds or chest keys to random player every 20 min.
+# Default Permission nodes:
+# Usage: None
+#--------------------------------------------------------------------------------------#
+
+every 20 minutes:
+  if {giveaway.toggle} is "true":
+    if online player count > 2:
+      add all players to {allplayers::*}
+      set {_player} to a random element out of {allplayers::*}
+      set {_prize} to a random integer from 1 to 7
+      
+      # PRIZES
+      if {_prize} is 1:
+        broadcast "&e&lGIVEAWAY &8| &e%{_player}% &fhas won the prize!"
+        send "&e&lGIVEAWAY &8| &fCongratulations %{_player}%, You have won 3 emeralds!" to {_player}
+        execute console command "give %{_player}% emerald 3"
+      if {_prize} is 2:
+        broadcast "&e&lGIVEAWAY &8| &e%{_player}% &fhas won the prize!"
+        send "&e&lGIVEAWAY &8| &fCongratulations %{_player}%, You have won 1 Basic Crate Key!" to {_player}
+        execute console command "crates key give %{_player}% basic 1"
+      if {_prize} is 3:
+        broadcast "&e&lGIVEAWAY &8| &e%{_player}% &fhas won the prize!"
+        send "&e&lGIVEAWAY &8| &fCongratulations %{_player}%, You have won 1 Golden Crate Key!" to {_player}
+        execute console command "crates key give %{_player}% golden 1"
+      if {_prize} is 4:
+        broadcast "&e&lGIVEAWAY &8| &e%{_player}% &fhas won the prize!"
+        send "&e&lGIVEAWAY &8| &fCongratulations %{_player}%, You have won 3 diamonds!" to {_player}
+        execute console command "give %{_player}% diamond 3"
+      if {_prize} is 5:
+        broadcast "&e&lGIVEAWAY &8| &e%{_player}% &fhas won the prize!"
+        send "&e&lGIVEAWAY &8| &fCongratulations %{_player}%, You have won 9 Iron Ingots!" to {_player}
+        execute console command "give %{_player}% iron_ingot 9"
+      if {_prize} is 6:
+        broadcast "&e&lGIVEAWAY &8| &e%{_player}% &fhas won the prize!"
+        send "&e&lGIVEAWAY &8| &fCongratulations %{_player}%, You have won an Iron Sword!" to {_player}
+        execute console command "give %{_player}% iron_sword 1"
+      if {_prize} is 7:
+        broadcast "&e&lGIVEAWAY &8| &e%{_player}% &fhas won the prize!"
+        send "&e&lGIVEAWAY &8| &fCongratulations %{_player}%, You have won 8 Ender Pearls!" to {_player}
+        execute console command "give %{_player}% ender_pearl 8"
+    
+    # NOT ENOUGH PLAYERS
+    else:
+      # broadcast "&e&lGIVEAWAY &8| &fAt least &e3 online players &fare needed for the Giveaway."
+      clear {_player}
+      clear {allplayers::*}
+
+# TOGGLE ACTIVE
+command /giveaway-toggle:
+  permission: giveaway.toggle
+  trigger:
+    if {giveaway.toggle} is not set:
+      set {giveaway.toggle} to "true"
+      send "&e&lGIVEAWAY &8| &fHas been &aactivated."
+    else:
+      clear {giveaway.toggle}
+      send "&e&lGIVEAWAY &8| &fHas been &cdeactivated."

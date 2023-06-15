@@ -1,0 +1,72 @@
+#--------------------------------------------------------------------------------------#
+# Name: Player Fireworks
+# Addons needed: None
+# Author: hogbits
+# Description: Launches fireworks around player to celebrate acheivments or occasions
+# Default Permission nodes:
+# Usage: /fireworks <player>
+#--------------------------------------------------------------------------------------#
+
+
+function fireworksDisplay(p: player):
+    # Randomize Firework type
+    set {_fireworkType1} to a random element out of all fireworktypes
+    set {_fireworkType2} to a random element out of all fireworktypes
+
+    # Firework set 1
+    set {_fireworkColor1} to a random element out of all colors
+    set {_fireworkColor2} to a random element out of all colors
+    set {_fireworkColor3} to a random element out of all colors
+
+    launch flickering ball large coloured {_fireworkColor1}, purple and white fading to pink and black at {_p}'s location with duration 2
+    launch trailing burst coloured white and {_fireworkColor2} fading to {_fireworkColor3} and light purple at {_p}'s location with duration 1
+
+    # Firework set 2
+    set {_fireworkColor1} to a random element out of all colors
+    set {_fireworkColor2} to a random element out of all colors
+    set {_fireworkColor3} to a random element out of all colors
+    launch flickering ball large coloured {_fireworkColor1}, purple and white fading to pink and black at {_p}'s location with duration 2
+    launch trailing burst coloured white and {_fireworkColor2} fading to {_fireworkColor3} and light purple at {_p}'s location with duration 1
+    wait 3 ticks
+
+    # Firework set 3
+    set {_fireworkColor1} to a random element out of all colors
+    set {_fireworkColor2} to a random element out of all colors
+    set {_fireworkColor3} to a random element out of all colors
+    launch trailing flickering star coloured yellow and {_fireworkColor3} fading to {_fireworkColor1} and gray at {_p}'s location with duration 3
+    launch trailing burst coloured {_fireworkColor2} and white fading to {_fireworkColor1} and light blue at {_p}'s location with duration 1
+    wait 3 ticks
+    
+    # Firework set 4
+    set {_fireworkColor1} to a random element out of all colors
+    set {_fireworkColor2} to a random element out of all colors
+    set {_fireworkColor3} to a random element out of all colors
+    launch ball large coloured {_fireworkColor3}, {_fireworkColor2} and white fading to {_fireworkColor1} and black at {_p}'s location with duration 3
+    launch trailing {_fireworktype3} firework colored {_fireworkColor2} and {_fireworkColor1} at {_p}
+    wait 5 ticks
+    
+    # Firework set 5
+    set {_fireworkColor1} to a random element out of all colors
+    set {_fireworkColor2} to a random element out of all colors
+    set {_fireworkColor3} to a random element out of all colors
+    launch flickering trailing {_fireworktype1} firework colored {_fireworkColor1} and {_fireworkColor2} at {_p}
+    wait 10 ticks
+
+    # Firework set 6
+    set {_fireworkColor1} to a random element out of all colors
+    set {_fireworkColor2} to a random element out of all colors
+    set {_fireworkColor3} to a random element out of all colors
+    launch flickering trailing star firework colored {_fireworkColor1} and {_fireworkColor2} at {_p}
+    launch {_fireworkType2} coloured {_fireworkColor1}, {_fireworkColor3} and white fading to {_fireworkColor2} and black at {_p}'s location with duration 1
+
+
+command /fireworks [<player>]:
+    aliases: /fw
+    trigger:
+        if arg-1 is not set:
+            loop all players:
+                fireworksDisplay(loop-player)
+        else:
+            fireworksDisplay(arg 1)
+            
+
