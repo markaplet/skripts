@@ -1,0 +1,219 @@
+#--------------------------------------------------------------------------------------#
+# Name: Particle Trails
+# Addons needed: None
+# Description: This skript allows players to equip a particle tail cosmetic just for fun.
+# Default Permission nodes:
+# Usage: /trail <style>
+# Style options: green, blue, red, orange, purple, 
+# flame, clouds, ender, portal, rain, totem, glow, blood, lava, conduit, fireworks, 
+# flash, music, soul, splashy, electric, thorn, thunder
+#--------------------------------------------------------------------------------------#
+
+
+function trailsHelp(p: player):
+    send "&e&l&m--------&e&l[&b&lPlayer&a&lTrails&e&l]&e&l&m--------" to {_p}
+    send "&f/trails <style>" to {_p}
+    send "&fstyle options:" to {_p}
+    send "green, blue, red, orange, purple, flame, clouds, ender, portal, rain, totem, glow, blood, lava, conduit, fireworks, flash, music, soul, splashy, electric, thorn, thunder" to {_p}
+    stop
+
+on quit:
+    execute player command "/trailstop"
+
+command /trailstop:
+    trigger:
+        set {playerTrail.%player%} to false
+        set {playerTrail_green.%player%} to false
+        set {playerTrail_blue.%player%} to false
+        set {playerTrail_red.%player%} to false
+        set {playerTrail_orange.%player%} to false
+        set {playerTrail_purple.%player%} to false
+        set {playerTrail_cloud.%player%} to false
+        set {playerTrail_ender.%player%} to false
+        set {playerTrail_portal.%player%} to false
+        set {playerTrail_totem.%player%} to false
+        set {playerTrail_rain.%player%} to false
+        set {playerTrail_glow.%player%} to false
+        set {playerTrail_blood.%player%} to false
+        set {playerTrail_lava.%player%} to false
+        set {playerTrail_conduit.%player%} to false
+
+command /trail [<text>]:
+    trigger:
+        if arg-1 is not set:
+            trailsHelp(player)
+            execute player command "/trailstop"
+            stop
+        
+        if arg-1 is "stop" or "clear" or "halt":
+            execute player command "/trailstop"
+
+        # Green
+        if arg-1 is "green":
+            if {playerTrail_green.%player%} is false:
+                set {playerTrail_green.%player%} to true
+                message "&7Particles&8> &2Green Trail&8 has been Enabled!"
+            else:
+                set {playerTrail_green.%player%} to false
+                message "&7Particles&8> &2Green Trail&8 has been Disabled!"
+            while {playerTrail_green.%player%} is true:
+                show 3 light green dust at player
+                wait 3 ticks
+        
+        # Blue
+        if arg-1 is "blue":
+            if {playerTrail_blue.%player%} is false:
+                set {playerTrail_blue.%player%} to true
+                message "&7Particles&8> &9Blue Trail&8 has been Enabled!"
+            else:
+                set {playerTrail_blue.%player%} to false
+                message "&7Particles&8> &9Blue Trail&8 has been Disabled!"
+            while {playerTrail_blue.%player%} is true:
+                show 3 light blue dust at player
+                wait 3 ticks
+
+        # Red
+        if arg-1 is "red":
+            if {playerTrail_red.%player%} is false:
+                set {playerTrail_red.%player%} to true
+                message "&7Particles&8> &4Red Trail&8 has been Enabled!"
+            else:
+                set {playerTrail_red.%player%} to false
+                message "&7Particles&8> &4Red Trail&8 has been Disabled!"
+            while {playerTrail_red.%player%} is true:
+                show 3 red dust at player
+                wait 3 ticks
+        
+        # Orange
+        if arg-1 is "orange":
+            if {playerTrail_orange.%player%} is false:
+                set {playerTrail_orange.%player%} to true
+                message "&7Particles&8> &6Orange Trail&8 has been Enabled!"
+            else:
+                set {playerTrail_orange.%player%} to false
+                message "&7Particles&8> &6Orange Trail&8 has been Disabled!"
+            while {playerTrail_orange.%player%} is true:
+                show 3 orange dust at player
+                wait 3 ticks
+        
+        # Purple
+        if arg-1 is "purple":
+            if {playerTrail_purple.%player%} is false:
+                set {playerTrail_purple.%player%} to true
+                message "&7Particles&8> &5Purple Trail&8 has been Enabled!"
+            else:
+                set {playerTrail_purple.%player%} to false
+                message "&7Particles&8> &5Purple Trail&8 has been Disabled!"
+            while {playerTrail_purple.%player%} is true:
+                show 3 purple dust at player
+                wait 3 ticks
+        
+        # Cloud
+        if arg-1 is "cloud":
+            if {playerTrail_cloud.%player%} is false:
+                set {playerTrail_cloud.%player%} to true
+                message "&7Particles&8> &fCloud Trail&8 has been Enabled!"
+            else:
+                set {playerTrail_cloud.%player%} to false
+                message "&7Particles&8> &fCloud Trail&8 has been Disabled!"
+            while {playerTrail_cloud.%player%} is true:
+                show cloud at player
+                wait 3 ticks
+        
+        # Ender 
+        if arg-1 is "ender":
+            if {playerTrail_ender.%player%} is false:
+                set {playerTrail_ender.%player%} to true
+                message "&7Particles&8> &5Ender Trail&8 has been Enabled!"
+            else:
+                set {playerTrail_ender.%player%} to false
+                message "&7Particles&8> &5Ender Trail&8 has been Disabled!"
+            while {playerTrail_ender.%player%} is true:
+                show ender signal at player
+                wait 3 ticks
+        
+        # Portal
+        if arg-1 is "portal":
+            if {playerTrail_portal.%player%} is false:
+                set {playerTrail_portal.%player%} to true
+                message "&7Particles&8> &5Portal Trail&8 has been Enabled!"
+            else:
+                set {playerTrail_portal.%player%} to false
+                message "&7Particles&8> &5Portal Trail&8 has been Disabled!"
+            while {playerTrail_portal.%player%} is true:
+                show 10 portal at player
+                wait 3 ticks
+
+        # Rain
+        if arg-1 is "rain":
+            if {playerTrail_rain.%player%} is false:
+                set {playerTrail_rain.%player%} to true
+                message "&7Particles&8> &9Rain Trail&8 has been Enabled!"
+            else:
+                set {playerTrail_rain.%player%} to false
+                message "&7Particles&8> &9Rain Trail&8 has been Disabled!"
+            while {playerTrail_rain.%player%} is true:
+                show falling water 2 blocks above player
+                wait 3 ticks
+                show cloud 2.2 blocks above player
+                wait 3 ticks
+        
+        # Totem
+        if arg-1 is "totem":
+            if {playerTrail_totem.%player%} is false:
+                set {playerTrail_totem.%player%} to true
+                message "&7Particles&8> &2Totem Trail&8 has been Enabled!"
+            else:
+                set {playerTrail_totem.%player%} to false
+                message "&7Particles&8> &2Totem Trail&8 has been Disabled!"
+            while {playerTrail_totem.%player%} is true:
+                show 2 totem at player
+                wait 3 ticks
+        
+        # Glow
+        if arg-1 is "glow":
+            if {playerTrail_glow.%player%} is false:
+                set {playerTrail_glow.%player%} to true
+                message "&7Particles&8> &eGlow Trail&8 has been Enabled!"
+            else:
+                set {playerTrail_glow.%player%} to false
+                message "&7Particles&8> &eGlow Trail&8 has been Disabled!"
+            while {playerTrail_glow.%player%} is true:
+                show 2 glow at player
+                wait 3 ticks
+        
+        # Blood
+        if arg-1 is "glow":
+            if {playerTrail_blood.%player%} is false:
+                set {playerTrail_blood.%player%} to true
+                message "&7Particles&8> &4Blood Trail&8 has been Enabled!"
+            else:
+                set {playerTrail_blood.%player%} to false
+                message "&7Particles&8> &4Blood Trail&8 has been Disabled!"
+            while {playerTrail_blood.%player%} is true:
+                show 5 redstone block break at player
+                wait 3 ticks
+        
+        # Lava
+        if arg-1 is "lava":
+            if {playerTrail_lava.%player%} is false:
+                set {playerTrail_lava.%player%} to true
+                message "&7Particles&8> &4Lava Trail&8 has been Enabled!"
+            else:
+                set {playerTrail_lava.%player%} to false
+                message "&7Particles&8> &4Lava Trail&8 has been Disabled!"
+            while {playerTrail_lava.%player%} is true:
+                show 5 falling lava at player
+                wait 3 ticks
+        
+        # Conduit
+        if arg-1 is "conduit":
+            if {playerTrail_conduit.%player%} is false:
+                set {playerTrail_conduit.%player%} to true
+                message "&7Particles&8> &9Conduit Trail&8 has been Enabled!"
+            else:
+                set {playerTrail_conduit.%player%} to false
+                message "&7Particles&8> &9Conduit Trail&8 has been Disabled!"
+            while {playerTrail_conduit.%player%} is true:
+                show 5 nautilus at player
+                wait 3 ticks

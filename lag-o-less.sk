@@ -1,0 +1,34 @@
+#--------------------------------------------------------------------------------------#
+# Name: Lag-o-less
+# Addons needed: -
+# Author: hogbits
+# Description: Clears items from ground to reduce lag.
+# Permission: server.lagoless
+# Usage: 
+#--------------------------------------------------------------------------------------#
+
+options:
+    prefix: &5[Lag-o-less] &8>>&r
+    loltimer: 300 # 5 minutes
+
+function lolHelp(p: player):
+    send "&1&l&m--------&9&l[&f&lLag-o-less&9&l]&1&l&m--------" to {_p}
+    send "&bDeletes items on ground causing lag" to {_p}
+    send "→ &f/lol" to {_p}
+    stop
+
+function clearLag():
+    loop all dropped items:
+        add 1 to {_item.count}
+        kill loop-value
+    add size of all arrows to {_item.count}
+    if {_item.count} is greater than 0:
+        broadcast "{@prefix} &rCleared %{_item.count}% ground items."
+    kill all arrows
+
+command /lol:
+    trigger:
+        clearLag()
+
+every {@loltimer} seconds:
+    clearLag()
